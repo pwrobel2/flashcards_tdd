@@ -1,10 +1,9 @@
-package test.java.flashcards_tdd; //Trzeba zmienic
+package flashcards_tdd;
 
 import org.junit.Test;
-import to.model.Flashcard;
+import flashcards_tdd.model.Flashcard;
 
 import static org.junit.Assert.*;
-
 
 public class flashcardsTest {
 

@@ -1,4 +1,4 @@
-package to.model; //Trzeba zmienic
+package flashcards_tdd.model;
 
 public class Flashcard {
 

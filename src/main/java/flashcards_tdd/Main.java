@@ -1,4 +1,4 @@
-package main.java.flashcards_tdd;
+package flashcards_tdd;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
