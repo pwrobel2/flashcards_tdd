@@ -1,13 +1,13 @@
 package flashcards_tdd.model;
 
 public class Flashcard {
-
     private int id;
     private String term;
     private String definition;
     private int learningLevel = 0;
+    private static final int maximumLearningLevel = 5;
 
-    public Flashcard(String term, String definition){
+    public Flashcard(String term, String definition) {
         this.term = term;
         this.definition = definition;
     }
@@ -16,7 +16,7 @@ public class Flashcard {
         return id;
     }
 
-    public String getTerm(){
+    public String getTerm() {
         return term;
     }
 
@@ -32,26 +32,25 @@ public class Flashcard {
         this.definition = definition;
     }
 
-
-    public boolean isCorrect(String term){
-        if(this.term == term)
-            return true;
-        else
-            return false;
-    }
-
-    public int getLearningLevel(){
+    public int getLearningLevel() {
         return learningLevel;
     }
 
-    public void increaseLearningLevel(){
-        if (learningLevel<5)
-            learningLevel++;
+    static public int getMaximumLearningLevel() {
+        return maximumLearningLevel;
     }
 
-    public void resetLearningLevel(){
+    public void increaseLearningLevel() {
+        if (learningLevel < maximumLearningLevel) {
+            learningLevel++;
+        }
+    }
+
+    public void resetLearningLevel() {
         learningLevel = 0;
     }
 
-
+    public boolean isCorrect(String term) {
+        return this.term.equals(term);
+    }
 }
