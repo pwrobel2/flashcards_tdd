@@ -77,7 +77,7 @@ public class Flashcard {
         learningLevel = 0;
     }
 
-    public boolean isCorrect(String term) {
+    public boolean isTermCorrect(String term) {
         return this.term.equals(term);
     }
 }

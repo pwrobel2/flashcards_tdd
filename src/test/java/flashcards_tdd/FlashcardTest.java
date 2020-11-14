@@ -9,14 +9,14 @@ public class FlashcardTest {
     @Test
     public void isCorrectTest_correct() {
         Flashcard flashcard = new Flashcard("Test term", "Test Definition");
-        boolean isCorrect = flashcard.isCorrect("Test term");
+        boolean isCorrect = flashcard.isTermCorrect("Test term");
         assertTrue(isCorrect);
     }
 
     @Test
     public void isCorrectTest_failed() {
         Flashcard flashcard = new Flashcard("Test term", "Test Definition");
-        boolean isCorrect = flashcard.isCorrect("Wrong term");
+        boolean isCorrect = flashcard.isTermCorrect("Wrong term");
         assertFalse(isCorrect);
     }
 
