@@ -14,11 +14,13 @@ public class FlashcardManagerImpl implements FlashcardManager {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         int id = -1;
-        try{
+        try {
             transaction = session.beginTransaction();
             id = (Integer) session.save(flashcard);
             transaction.commit();
-        // TODO catch IllegalArgumentException
+        } catch (IllegalArgumentException e) {
+            if (transaction != null)
+                transaction.rollback();
         } catch (PersistenceException e) {
             id = -1;
             if (transaction != null)
@@ -34,13 +36,14 @@ public class FlashcardManagerImpl implements FlashcardManager {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         int updatedCount = 0;
-        try{
+        try {
             transaction = session.beginTransaction();
             session.update(flashcard);
             transaction.commit();
-            // TODO set real updatedCount
             updatedCount = 1;
-        // TODO catch IllegalArgumentException
+        } catch (IllegalArgumentException e) {
+            if (transaction != null)
+                transaction.rollback();
         } catch (PersistenceException e) {
             if (transaction != null)
                 transaction.rollback();
@@ -55,12 +58,13 @@ public class FlashcardManagerImpl implements FlashcardManager {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         int deletedCount = 0;
-        try{
-            transaction = session.beginTransaction();
-            session.remove(flashcard);
-            transaction.commit();
-            // TODO set real deletedCount
-            deletedCount = 1;
+        try {
+            if (flashcard != null && readFlashcardById(flashcard.getId()) != null) {
+                transaction = session.beginTransaction();
+                session.remove(flashcard);
+                transaction.commit();
+                deletedCount = 1;
+            }
         } catch (PersistenceException e) {
             if (transaction != null)
                 transaction.rollback();
