@@ -1,6 +1,8 @@
 package flashcards_tdd;
 
 import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.util.List;
@@ -15,15 +17,21 @@ public class FlashcardManagerTest {
         flashcardManager = new FlashcardManagerImpl();
     }
 
+    @AfterClass
+    public static void AfterClass() {
+        HibernateUtil.shutdown();
+    }
+
     @Test
     public void createFlashcard() {
         final String term = "Test term";
         final String definition = "Test definition";
         Flashcard flashcard = new Flashcard(term, definition);
         int flashcardId = flashcardManager.createFlashcard(flashcard);
-        assertEquals(flashcardId, 1);
+        assertNotEquals(flashcardId, -1);
     }
 
+    @Test
     public void createAndReadFlashcardById() {
         final String term = "Test term";
         final String definition = "Test definition";
@@ -37,6 +45,7 @@ public class FlashcardManagerTest {
         assertEquals(readFlashcard.getLearningLevel(), 0);
     }
 
+    @Test
     public void createAndReadFlashcardFromAllFlashcardsList() {
         final String term = "Test term";
         final String definition = "Test definition";
@@ -92,14 +101,18 @@ public class FlashcardManagerTest {
     public void updateFlashcardLearningLevel() {
         final String term = "Test term";
         final String definition = "Test definition";
-        final String[] testedMethods = { "increaseLearningLevel", "resetLearningLevel" };
+        final String[] testedMethods = { "setLearningLevel", "increaseLearningLevel", "resetLearningLevel" };
         Flashcard flashcard = new Flashcard(term, definition);
         int flashcardId = flashcardManager.createFlashcard(flashcard);
         int learningLevel = 0;
         for (String testedMethod : testedMethods) {
             Flashcard toBeUpdatedFlashcard = flashcardManager.readFlashcardById(flashcardId);
-            if (testedMethod.equals("increaseLearningLevel")) {
-                for (int i = 0; i < Flashcard.getMaximumLearningLevel(); i++) {
+            if (testedMethod.equals("setLearningLevel")) {
+                learningLevel = Flashcard.getMaximumLearningLevel() / 2;
+                toBeUpdatedFlashcard.setLearningLevel(learningLevel);
+            }
+            else if (testedMethod.equals("increaseLearningLevel")) {
+                while (learningLevel < Flashcard.getMaximumLearningLevel()) {
                     learningLevel++;
                     toBeUpdatedFlashcard.increaseLearningLevel();
                 }

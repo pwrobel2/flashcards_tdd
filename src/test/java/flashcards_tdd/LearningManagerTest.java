@@ -1,6 +1,8 @@
 package flashcards_tdd;
 
 import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,6 +15,11 @@ public class LearningManagerTest {
         flashcardManager = new FlashcardManagerImpl();
         learningManager = new LearningManagerImpl();
         learningManager.bindFlashcardManager(flashcardManager);
+    }
+
+    @AfterClass
+    public static void AfterClass() {
+        HibernateUtil.shutdown();
     }
 
     // TODO 
