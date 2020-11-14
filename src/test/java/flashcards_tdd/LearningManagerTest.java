@@ -39,10 +39,11 @@ public class LearningManagerTest {
     public void nextFlashcard() {
         boolean runAtLeastOnce = false;
         while (learningManager.nextFlashcard()) {
+            runAtLeastOnce = true;
             assertNotNull(learningManager.getTerm());
             assertNotNull(learningManager.getDefinition());
             assertNotNull(learningManager.getLearningLevel());
-            runAtLeastOnce = true;
+            learningManager.testTerm(learningManager.getTerm());
         }
         assertTrue(runAtLeastOnce);
         assertFalse(learningManager.nextFlashcard());
@@ -76,7 +77,9 @@ public class LearningManagerTest {
     @Test(expected=NullPointerException.class)
     public void testTermInvalid() {
         final String incorrectTerm = "Incorrect test term";
-        while (learningManager.nextFlashcard());
+        while (learningManager.nextFlashcard()) {
+            learningManager.testTerm(learningManager.getTerm());
+        }
         learningManager.testTerm(learningManager.getTerm());
         learningManager.testTerm(incorrectTerm);
     }
