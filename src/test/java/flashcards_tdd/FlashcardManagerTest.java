@@ -28,25 +28,31 @@ public class FlashcardManagerTest {
         final String definition = "Test definition";
         Flashcard flashcard = new Flashcard(term, definition);
         int flashcardId = flashcardManager.createFlashcard(flashcard);
-        assertNotEquals(flashcardId, -1);
+        assertNotEquals(-1, flashcardId);
     }
 
     @Test
-    public void createAndReadFlashcardById() {
+    public void createFlashcardInvalid() {
+        int flashcardId = flashcardManager.createFlashcard(null);
+        assertEquals(-1, flashcardId);
+    }
+
+    @Test
+    public void readFlashcardById() {
         final String term = "Test term";
         final String definition = "Test definition";
         Flashcard flashcard = new Flashcard(term, definition);
         int flashcardId = flashcardManager.createFlashcard(flashcard);
         Flashcard readFlashcard = flashcardManager.readFlashcardById(flashcardId);
         assertNotNull(readFlashcard);
-        assertEquals(readFlashcard.getId(), flashcardId);
-        assertEquals(readFlashcard.getTerm(), term);
-        assertEquals(readFlashcard.getDefinition(), definition);
-        assertEquals(readFlashcard.getLearningLevel(), 0);
+        assertEquals(flashcardId, readFlashcard.getId());
+        assertEquals(term, readFlashcard.getTerm());
+        assertEquals(definition, readFlashcard.getDefinition());
+        assertEquals(0, readFlashcard.getLearningLevel());
     }
 
     @Test
-    public void createAndReadFlashcardFromAllFlashcardsList() {
+    public void readFlashcardFromAllFlashcardsList() {
         final String term = "Test term";
         final String definition = "Test definition";
         Flashcard flashcard = new Flashcard(term, definition);
@@ -57,14 +63,21 @@ public class FlashcardManagerTest {
             assertNotNull(readFlashcard);
             if (readFlashcard.getId() == flashcardId) {
                 assertFalse(found);
-                assertEquals(readFlashcard.getId(), flashcardId);
-                assertEquals(readFlashcard.getTerm(), term);
-                assertEquals(readFlashcard.getDefinition(), definition);
-                assertEquals(readFlashcard.getLearningLevel(), 0);
+                assertEquals(flashcardId, readFlashcard.getId());
+                assertEquals(term, readFlashcard.getTerm());
+                assertEquals(definition, readFlashcard.getDefinition());
+                assertEquals(0, readFlashcard.getLearningLevel());
                 found = true;
             }
         }
         assertTrue(found);
+    }
+
+    @Test
+    public void readFlashcardByIdInvalid() {
+        final int flashcardId = -1;
+        Flashcard readFlashcard = flashcardManager.readFlashcardById(flashcardId);
+        assertNull(readFlashcard);
     }
 
     @Test
@@ -77,9 +90,9 @@ public class FlashcardManagerTest {
         Flashcard toBeUpdatedFlashcard = flashcardManager.readFlashcardById(flashcardId);
         toBeUpdatedFlashcard.setTerm(updatedTerm);
         int updatedFlashcardCount = flashcardManager.updateFlashcard(toBeUpdatedFlashcard);
-        assertEquals(updatedFlashcardCount, 1);
+        assertEquals(1, updatedFlashcardCount);
         Flashcard updatedFlashcard = flashcardManager.readFlashcardById(flashcardId);
-        assertEquals(updatedFlashcard.getTerm(), updatedTerm);
+        assertEquals(updatedTerm, updatedFlashcard.getTerm());
     }
 
     @Test
@@ -92,9 +105,9 @@ public class FlashcardManagerTest {
         Flashcard toBeUpdatedFlashcard = flashcardManager.readFlashcardById(flashcardId);
         toBeUpdatedFlashcard.setDefinition(updatedDefinition);
         int updatedFlashcardCount = flashcardManager.updateFlashcard(toBeUpdatedFlashcard);
-        assertEquals(updatedFlashcardCount, 1);
+        assertEquals(1, updatedFlashcardCount);
         Flashcard updatedFlashcard = flashcardManager.readFlashcardById(flashcardId);
-        assertEquals(updatedFlashcard.getDefinition(), updatedDefinition);
+        assertEquals(updatedDefinition, updatedFlashcard.getDefinition());
     }
 
     @Test
@@ -121,10 +134,21 @@ public class FlashcardManagerTest {
                 toBeUpdatedFlashcard.resetLearningLevel();
             }
             int updatedFlashcardCount = flashcardManager.updateFlashcard(toBeUpdatedFlashcard);
-            assertEquals(updatedFlashcardCount, 1);
+            assertEquals(1, updatedFlashcardCount);
             Flashcard updatedFlashcard = flashcardManager.readFlashcardById(flashcardId);
-            assertEquals(updatedFlashcard.getLearningLevel(), learningLevel);
+            assertEquals(learningLevel, updatedFlashcard.getLearningLevel());
         }
+    }
+
+    @Test
+    public void updateFlashcardInvalid() {
+        final String term = "Test term";
+        final String definition = "Test definition";
+        Flashcard toBeUpdatedFlashcard = new Flashcard(term, definition);
+        int updatedFlashcardCount = flashcardManager.updateFlashcard(toBeUpdatedFlashcard);
+        assertEquals(0, updatedFlashcardCount);
+        updatedFlashcardCount = flashcardManager.updateFlashcard(null);
+        assertEquals(0, updatedFlashcardCount);
     }
 
     @Test
@@ -136,8 +160,19 @@ public class FlashcardManagerTest {
         Flashcard toBeDeletedFlashcard = flashcardManager.readFlashcardById(flashcardId);
         assertNotNull(toBeDeletedFlashcard);
         int deletedFlashcardCount = flashcardManager.deleteFlashcard(toBeDeletedFlashcard);
-        assertEquals(deletedFlashcardCount, 1);
+        assertEquals(1, deletedFlashcardCount);
         Flashcard deletedFlashcard = flashcardManager.readFlashcardById(flashcardId);
         assertNull(deletedFlashcard);
+    }
+
+    @Test
+    public void deleteFlashcardInvalid() {
+        final String term = "Test term";
+        final String definition = "Test definition";
+        Flashcard toBeDeletedFlashcard = new Flashcard(term, definition);
+        int deletedFlashcardCount = flashcardManager.deleteFlashcard(toBeDeletedFlashcard);
+        assertEquals(0, deletedFlashcardCount);
+        deletedFlashcardCount = flashcardManager.deleteFlashcard(null);
+        assertEquals(0, deletedFlashcardCount);
     }
 }

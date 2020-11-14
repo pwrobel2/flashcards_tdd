@@ -18,6 +18,7 @@ public class FlashcardManagerImpl implements FlashcardManager {
             transaction = session.beginTransaction();
             id = (Integer) session.save(flashcard);
             transaction.commit();
+        // TODO catch IllegalArgumentException
         } catch (PersistenceException e) {
             id = -1;
             if (transaction != null)
@@ -37,7 +38,9 @@ public class FlashcardManagerImpl implements FlashcardManager {
             transaction = session.beginTransaction();
             session.update(flashcard);
             transaction.commit();
+            // TODO set real updatedCount
             updatedCount = 1;
+        // TODO catch IllegalArgumentException
         } catch (PersistenceException e) {
             if (transaction != null)
                 transaction.rollback();
@@ -56,6 +59,7 @@ public class FlashcardManagerImpl implements FlashcardManager {
             transaction = session.beginTransaction();
             session.remove(flashcard);
             transaction.commit();
+            // TODO set real deletedCount
             deletedCount = 1;
         } catch (PersistenceException e) {
             if (transaction != null)
