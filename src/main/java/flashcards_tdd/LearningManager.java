@@ -18,6 +18,7 @@ public interface LearningManager {
     Integer getLearningLevel();
     
     // Tests if term is correct. If yes, increases learning level, if no, resets learning level.
+    // Flashcard must be available. Otherwise, throws NullPointerException.
     // Returns true if term is correct or false otherwise.
     boolean testTerm(String term);
 }

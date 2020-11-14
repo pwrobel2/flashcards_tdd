@@ -45,6 +45,10 @@ public class LearningManagerTest {
             runAtLeastOnce = true;
         }
         assertTrue(runAtLeastOnce);
+        assertFalse(learningManager.nextFlashcard());
+        assertNull(learningManager.getTerm());
+        assertNull(learningManager.getDefinition());
+        assertNull(learningManager.getLearningLevel());
     }
 
     @Test
@@ -67,5 +71,13 @@ public class LearningManagerTest {
             learningManager.testTerm(learningManager.getTerm());
             assertEquals(learningLevel, learningManager.getLearningLevel().intValue());
         }
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testTermInvalid() {
+        final String incorrectTerm = "Incorrect test term";
+        while (learningManager.nextFlashcard());
+        learningManager.testTerm(learningManager.getTerm());
+        learningManager.testTerm(incorrectTerm);
     }
 }
