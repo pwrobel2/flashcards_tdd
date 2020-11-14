@@ -123,8 +123,7 @@ public class FlashcardManagerTest {
             if (testedMethod.equals("setLearningLevel")) {
                 learningLevel = Flashcard.getMaximumLearningLevel() / 2;
                 toBeUpdatedFlashcard.setLearningLevel(learningLevel);
-            }
-            else if (testedMethod.equals("increaseLearningLevel")) {
+            } else if (testedMethod.equals("increaseLearningLevel")) {
                 while (learningLevel < Flashcard.getMaximumLearningLevel()) {
                     learningLevel++;
                     toBeUpdatedFlashcard.increaseLearningLevel();
