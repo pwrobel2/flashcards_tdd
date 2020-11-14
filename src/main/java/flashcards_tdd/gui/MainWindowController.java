@@ -1,5 +1,7 @@
 package flashcards_tdd.gui;
 
+import flashcards_tdd.FlashcardManager;
+import flashcards_tdd.FlashcardManagerImpl;
 import flashcards_tdd.gui.dialog.FlashcardAddDialog;
 import flashcards_tdd.gui.dialog.FlashcardUpdateDialog;
 import flashcards_tdd.model.Flashcard;
@@ -31,13 +33,14 @@ public class MainWindowController implements Initializable {
     TableColumn<Flashcard, String> definitionColumn;
     @FXML
     TableColumn<Flashcard, Integer> learningLevelColumn;
+    private FlashcardManager fm;
 
     @FXML
     private void onAddButtonClick(ActionEvent event){
         FlashcardAddDialog dialog = new FlashcardAddDialog();
         Optional<?> result = dialog.showAndWait();
         if(result != null && result.isPresent()){
-            //TODO: Add to database
+            fm.createFlashcard((Flashcard)result.get());
         }
         loadDataToTableView();
     }
@@ -49,7 +52,7 @@ public class MainWindowController implements Initializable {
             FlashcardUpdateDialog dialog = new FlashcardUpdateDialog(toUpdate);
             Optional<?> result = dialog.showAndWait();
             if(result != null && result.isPresent()){
-                //TODO: Update in database
+                fm.updateFlashcard((Flashcard)result.get());
             }
         }
         loadDataToTableView();
@@ -59,7 +62,7 @@ public class MainWindowController implements Initializable {
     private void onRemoveButtonClick(ActionEvent event){
         Flashcard toDelete = flashcardTableView.getSelectionModel().getSelectedItem();
         if(toDelete != null){
-            //TODO: Delete from database
+            fm.deleteFlashcard(toDelete);
         }
         loadDataToTableView();
     }
@@ -95,14 +98,15 @@ public class MainWindowController implements Initializable {
 
     private void loadDataToTableView(){
         ObservableList<Flashcard> dataList = FXCollections.observableArrayList();
-        dataList.addAll(/*TODO: Obtain items from database*/);
+        dataList.addAll(fm.readAllFlashcardsList());
         termColumn.setCellValueFactory(new PropertyValueFactory<Flashcard, String>("term"));
-        definitionColumn.setCellValueFactory(new PropertyValueFactory<Flashcard, String>("term"));
+        definitionColumn.setCellValueFactory(new PropertyValueFactory<Flashcard, String>("definition"));
         learningLevelColumn.setCellValueFactory(new PropertyValueFactory<Flashcard, Integer>("learningLevel"));
         flashcardTableView.setItems(dataList);
     }
 
     public void initialize(URL url, ResourceBundle rb) {
-
+        fm = new FlashcardManagerImpl();
+        loadDataToTableView();
     }
 }

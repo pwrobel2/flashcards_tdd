@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 public class FlashcardAddDialog extends BaseDialog<Flashcard> {
 
     public FlashcardAddDialog(){
-        super("Add Employee");
+        super("Add Flashcard");
         TextField term = new DialogNotNullTextField();
         addTextField(term, "Term");
 

@@ -8,7 +8,7 @@ public class FlashcardUpdateDialog extends BaseDialog<Flashcard> {
     private final Flashcard flashcardToEdit;
 
     public FlashcardUpdateDialog(Flashcard flashcard) {
-        super("Update Employee");
+        super("Update Flashcard");
         flashcardToEdit = flashcard;
         TextField term = new DialogNotNullTextField();
         addTextField(term, "Term");
