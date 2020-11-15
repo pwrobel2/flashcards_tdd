@@ -40,6 +40,13 @@ public abstract class BaseDialog<T> extends Dialog<T> {
         gridRows++;
     }
 
+    protected void addSlider(Slider slider, String name){
+        grid.add(new Label(name), 0, gridRows);
+        grid.add(slider, 1, gridRows);
+        gridRows++;
+
+    }
+
     private boolean areRequirementsNotMet(){
         for(Requirement r : requirements){
             if(!r.getIsMet()) {
