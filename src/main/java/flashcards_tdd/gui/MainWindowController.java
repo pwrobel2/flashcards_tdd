@@ -68,6 +68,16 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
+    private void onLearningLevelResetButtonClick(ActionEvent event){
+        Flashcard toReset = flashcardTableView.getSelectionModel().getSelectedItem();
+        if(toReset != null){
+            toReset.resetLearningLevel();
+            fm.updateFlashcard(toReset);
+        }
+        loadDataToTableView();
+    }
+    
+    @FXML
     private void onStartLearningButtonClick(ActionEvent event){
         Parent root;
         try {
