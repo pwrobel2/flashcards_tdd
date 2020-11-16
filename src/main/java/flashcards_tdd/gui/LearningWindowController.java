@@ -65,7 +65,7 @@ public class LearningWindowController implements Initializable {
     }
 
     private void updateCorrectLabel(){
-        correctLabel.setText("Correct: " + (answersCount != 0 ? correctAnswersCount / answersCount * 100 : 0) + "%");
+        correctLabel.setText("Correct: " + String.format("%.2f", (answersCount != 0 ? correctAnswersCount / answersCount * 100 : 0)) + "%");
     }
 
     private void learningFinished(){
